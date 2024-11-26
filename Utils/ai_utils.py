@@ -1,8 +1,7 @@
 import nltk
 from kiwipiepy import Kiwi
 from keybert import KeyBERT
-from sentence_transformers import SentenceTransformer
-from transformers import BertModel, AutoTokenizer, AutoModelForTokenClassification
+from transformers import BertModel, AutoModelForTokenClassification
 from transformers import pipeline
 from transformers import AutoTokenizer, AutoModelForSeq2SeqLM
 from sentence_transformers import SentenceTransformer, util
