@@ -8,7 +8,7 @@ def find_related_news(keyword: list, date: list, count=5):
     links = []
 
     # 뉴스 날짜 지정 아래는 1달 기준
-    m_date = list(date)
+    m_date: list[list | str] = list(date)
     if m_date[1] == '1':
         m_date[0] = str(int(m_date[0]) - 1)
         m_date[1] = '12'
@@ -39,7 +39,7 @@ def find_related_news(keyword: list, date: list, count=5):
 
 
 class News:
-    def __init__(self, url):
+    def __init__(self, url=''):
         self.url = url
 
     def get_transcript(self):

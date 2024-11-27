@@ -92,7 +92,7 @@ def do2():
         else:
             # ['문단', [뉴스목록]] 구조
             res = list()
-            topic_clusters = similarity.process_text_by_cluster(article, threshold=0.7, top_n=3)
+            topic_clusters = similarity.process_text_by_cluster(article)
             # 출력
             for topic, data in topic_clusters.items():
                 related: list = find_related_news(data['keyword'], date, 3)
