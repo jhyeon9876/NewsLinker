@@ -11,6 +11,7 @@ kiwi = Kiwi()
 class Summary:
     def __init__(self):
         nltk.download('punkt')
+        nltk.download('punkt_tab')
         self.model = AutoModelForSeq2SeqLM.from_pretrained('eenzeenee/t5-base-korean-summarization')
         self.tokenizer = AutoTokenizer.from_pretrained('eenzeenee/t5-base-korean-summarization')
 

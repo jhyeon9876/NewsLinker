@@ -33,7 +33,7 @@ def do():
         related: list = find_related_news(keywords, date)
         print('news:', related)
         represent_article = news.get_news_article(related[0]['link'])
-
+        print('represent_article: ', represent_article)
         # 5. 추출 기사 요약
         represent_summary: str = summary.summarize(represent_article)
         print('represent_summary: ', represent_summary)
