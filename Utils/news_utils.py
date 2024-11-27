@@ -4,7 +4,7 @@ import requests
 from bs4 import BeautifulSoup
 
 
-def find_related_news(keyword: list, date: list):
+def find_related_news(keyword: list, date: list, count=5):
     links = []
 
     # 뉴스 날짜 지정 아래는 1달 기준
@@ -22,7 +22,7 @@ def find_related_news(keyword: list, date: list):
         response = requests.get(url, headers={'User-Agent': ua})
         parser = BeautifulSoup(response.text, 'html.parser')
         tmp = parser.select('div > div > div.news_contents')
-        for i in range(5):
+        for i in range(count):
             link = tmp[i].select_one('a.dsc_thumb').attrs['href']
             title = tmp[i].select_one('a.news_tit').attrs['title']
             img = ''

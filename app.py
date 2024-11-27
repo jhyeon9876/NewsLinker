@@ -9,6 +9,7 @@ app = Flask(__name__)
 # 뉴스링커 라우팅
 @app.route('/newsLinker', methods=['GET'])
 def do():
+    result = {}
     try:
         print('=<Start: NewsLinker>==================')
         url: str = request.args.get('url')
@@ -38,38 +39,36 @@ def do():
         print('represent_summary: ', represent_summary)
 
         # 6. 결과 취합
-        result = {
-            'status': 'Success',
-            'represent_article': {
-                'title': related[0]['title'],
-                'link': related[0]['link'],
-                'summary': represent_summary,
-                'img': related[0]['img'],
-            },
-            'news': [
-                {
-                    'title': i['title'],
-                    'link': i['link'],
-                    'img': i['img']
-                } for i in related[1:]
-            ]
+        result['status'] = 'Success'
+        result['represent_article'] = {
+            'title': related[0]['title'],
+            'link': related[0]['link'],
+            'summary': represent_summary,
+            'img': related[0]['img'],
         }
-        print('=<End: NewsLinker>==================')
-        # 리턴
-        return json.dumps(result)
+        result['news'] = [{
+            'title': i['title'],
+            'link': i['link'],
+            'img': i['img']} for i in related[1:]]
+
     except Exception as e:
         print(e)
+        result['status'] = 'Failed'
+        result['reason'] = str(e)
+    finally:
         print('=<End: NewsLinker>==================')
-        return json.dumps({'status': 'Fail', 'error': str(e)})
+        return json.dumps(result)
 
 
 @app.route('/articleLinker', methods=['POST'])
 def do2():
+    result = {}
     try:
         print('=<Start: ArticleLinker>==================')
-        article = request.json['text'] # 기사 전문
-        date = request.json['date'].split('-') # 2024-11-11 이런 형태로 입력 예상
-        more_details = request.json['more_details'] # T 혹은 F
+        article = request.json['text']
+        date = request.json['date'].split('-')
+        # T 혹은 F, 한 줄마다 할지 문단마다 할지 정하는 변수, 기본값 F로 가정
+        more_details = request.json['more_details']
 
         if more_details == 'T':
             #
@@ -90,24 +89,24 @@ def do2():
             # for sentence, keywords in sentence_keywords.items():
             #     print(f"{sentence}: {keywords}")
             pass
-        elif more_details == 'F':
+        else:
+            # ['문단', [뉴스목록]] 구조
             res = list()
             topic_clusters = similarity.process_text_by_cluster(article, threshold=0.7, top_n=3)
             # 출력
             for topic, data in topic_clusters.items():
-                related: list = find_related_news(data['keyword'], date)
+                related: list = find_related_news(data['keyword'], date, 3)
                 res.append([data['text'], related])
 
-        result = {
-            'status': 'Success',
-            'related_news_by_cluster': res,
-        }
-        print('=<End: ArticleLinker>==================')
-        return json.dumps(result)
+            result['status'] = 'Success'
+            result['related_articles_by_cluster'] = res
     except Exception as e:
         print(e)
+        result['status'] = 'Failed'
+        result['reason'] = str(e)
+    finally:
         print('=<End: ArticleLinker>==================')
-        return json.dumps({'status': 'Fail', 'error': str(e)})
+        return json.dumps(result)
 
 
 if __name__ == '__main__':
