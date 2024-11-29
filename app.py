@@ -30,7 +30,7 @@ def do():
         print('keywords: ', keywords)
 
         # 4. 검색
-        related: list = find_related_news(keywords, date)
+        related: list = find_related_news(keywords, date=date)
         print('news:', related)
         represent_article = news.get_news_article(related[0]['link'])
         print('represent_article: ', represent_article)
@@ -66,7 +66,6 @@ def do2():
     try:
         print('=<Start: ArticleLinker>==================')
         article = request.json['text']
-        date = request.json['date'].split('-')
         # T 혹은 F, 한 줄마다 할지 문단마다 할지 정하는 변수, 기본값 F로 가정
         more_details = request.json['more_details']
 
@@ -95,7 +94,9 @@ def do2():
             topic_clusters = similarity.process_text_by_cluster(article)
             # 출력
             for topic, data in topic_clusters.items():
-                related: list = find_related_news(data['keyword'], date, 3)
+                print(data)
+                related: list = find_related_news(data['keyword'], 3)
+                print(related)
                 res.append([data['text'], related])
 
             result['status'] = 'Success'
