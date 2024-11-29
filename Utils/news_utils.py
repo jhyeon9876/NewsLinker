@@ -11,7 +11,7 @@ def find_related_news(keyword: list, count=5, date=None):
     url = ''
     # 뉴스 날짜 지정 아래는 1달 기준
     if not date:
-        url = f'https://search.naver.com/search.naver?where=news&query={"+".join(keyword)}&sm=tab_opt&sort=1&photo=0&field=0&pd=0&ds=&de=&docid=&related=0&mynews=0&office_type=0&office_section_code=0&news_office_checked=&nso=so%3Add%2Cp%3Aall&is_sug_officeid=0&office_category=0&service_area=0'
+        url = f'https://search.naver.com/search.naver?where=news&query={"+".join(keyword)}&sm=tab_opt&sort=1&photo=0&field=0&pd=3&ds=&de=&docid=&related=0&mynews=0&office_type=0&office_section_code=0&news_office_checked=&nso=so%3Add%2Cp%3Aall&is_sug_officeid=0&office_category=0&service_area=0'
     else:
         m_date: list[list | str] = list(date)
         if m_date[1] == '1':

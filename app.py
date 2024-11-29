@@ -2,6 +2,7 @@ from flask import Flask, request
 from Utils.news_utils import News, find_related_news
 from Utils.ai_utils import Summary, KeywordExtractor, Similarity
 import json
+import traceback
 
 app = Flask(__name__)
 
@@ -32,6 +33,8 @@ def do():
         # 4. 검색
         related: list = find_related_news(keywords, date=date)
         print('news:', related)
+        if not related:
+            raise Exception('뉴스가 없습니다.')
         represent_article = news.get_news_article(related[0]['link'])
         print('represent_article: ', represent_article)
         # 5. 추출 기사 요약
@@ -52,7 +55,7 @@ def do():
             'img': i['img']} for i in related[1:]]
 
     except Exception as e:
-        print(e)
+        print(traceback.format_exc())
         result['status'] = 'Failed'
         result['reason'] = str(e)
     finally:
