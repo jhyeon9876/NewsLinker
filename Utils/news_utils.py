@@ -19,6 +19,11 @@ def find_related_news(keyword: list, count=5, date=None):
             m_date[1] = '12'
         else:
             m_date[1] = str(int(m_date[1]) - 1).zfill(2)
+        if date[1] == '12':
+            date[0] = str(int(m_date[0]) + 1)
+            date[1] = '01'
+        else:
+            date[1] = str(int(date[1]) + 1).zfill(2)
             url = f'https://search.naver.com/search.naver?where=news&query={"+".join(keyword)}&sm=tab_opt&sort=1&photo=0&field=0&pd=3&ds={".".join(m_date)}&de={".".join(date)}&docid=&related=0&mynews=0&office_type=0&office_section_code=0&news_office_checked=&nso=so%3Add%2Cp%3Aall&is_sug_officeid=0&office_category=0&service_area=0'
     ua = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36'
 
