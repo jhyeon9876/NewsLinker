@@ -63,7 +63,7 @@ def do():
         return json.dumps(result)
 
 
-@app.route('/articleLinker', methods=['POST'])
+@app.route('/newsLinkerForWeb', methods=['POST'])
 def do2():
     result = {}
     try:
@@ -73,23 +73,7 @@ def do2():
         more_details = request.json['more_details']
 
         if more_details == 'T':
-            #
-            # 아직 손 안댐 여기 다시 건드려야 함
-            #
-            # kw: list = kw_extractor.extract_keywords(article)
-            # print(f"전체키워드: {kw}")
-            #
-            # # 유사도 기반 문장 필터링
-            # filtered_sentences = similarity.filtering(article, kw)
-            # print(f"\n핵심문장 ({len(filtered_sentences)}):")
-            # for sentence in filtered_sentences:
-            #     print(f"- {sentence}")
-            #
-            # # 문장별 키워드 추출
-            # sentence_keywords = similarity.extract_keywords_from_sentences(filtered_sentences, top_n=3)
-            # print("\n문장별 키워드")
-            # for sentence, keywords in sentence_keywords.items():
-            #     print(f"{sentence}: {keywords}")
+
             pass
         else:
             # ['문단', [뉴스목록]] 구조
